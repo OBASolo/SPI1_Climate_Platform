@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SPI-1 Climate Platform</title>
+<style>
+body { font-family: Arial; background:#f4f7fb; text-align:center; }
+.header { background:#08306B; color:white; padding:20px; }
+.container { width:90%; margin:25px auto; background:white; padding:20px; border-radius:14px; }
+button { padding:10px 16px; margin:5px; background:#2171B5; color:white; border:none; border-radius:8px; }
+img { max-width:100%; border:1px solid #ddd; border-radius:10px; }
+#yearLabel { font-size:24px; font-weight:bold; color:#08306B; margin:15px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>SPI-1 Climate Early Warning Platform</h1>
+<p>Animated yearly monitoring of drought and wetness conditions across Ghana</p>
+</div>
+
+<div class="container">
+<div id="yearLabel">Year: 1984</div>
+
+<button onclick="previousYear()">Previous</button>
+<button onclick="playAnimation()">Play</button>
+<button onclick="pauseAnimation()">Pause</button>
+<button onclick="nextYear()">Next</button>
+
+<br><br>
+
+<input type="range" id="yearSlider" min="0" max="39" value="0" step="1"
+oninput="selectYear(this.value)" style="width:70%;">
+
+<br><br>
+
+<img id="mapImage" src="images/SPI-1_classification_1984_GHA_Agroeco.png" alt="SPI-1 map">
+
+<p>Indicator: SPI-1 | Source: ILIMS Project</p>
+</div>
+
+<script>
+var images = ["images/SPI-1_classification_1984_GHA_Agroeco.png","images/SPI-1_classification_1985_GHA_Agroeco.png","images/SPI-1_classification_1986_GHA_Agroeco.png","images/SPI-1_classification_1987_GHA_Agroeco.png","images/SPI-1_classification_1988_GHA_Agroeco.png","images/SPI-1_classification_1989_GHA_Agroeco.png","images/SPI-1_classification_1990_GHA_Agroeco.png","images/SPI-1_classification_1991_GHA_Agroeco.png","images/SPI-1_classification_1992_GHA_Agroeco.png","images/SPI-1_classification_1993_GHA_Agroeco.png","images/SPI-1_classification_1994_GHA_Agroeco.png","images/SPI-1_classification_1995_GHA_Agroeco.png","images/SPI-1_classification_1996_GHA_Agroeco.png","images/SPI-1_classification_1997_GHA_Agroeco.png","images/SPI-1_classification_1998_GHA_Agroeco.png","images/SPI-1_classification_1999_GHA_Agroeco.png","images/SPI-1_classification_2000_GHA_Agroeco.png","images/SPI-1_classification_2001_GHA_Agroeco.png","images/SPI-1_classification_2002_GHA_Agroeco.png","images/SPI-1_classification_2003_GHA_Agroeco.png","images/SPI-1_classification_2004_GHA_Agroeco.png","images/SPI-1_classification_2005_GHA_Agroeco.png","images/SPI-1_classification_2006_GHA_Agroeco.png","images/SPI-1_classification_2007_GHA_Agroeco.png","images/SPI-1_classification_2008_GHA_Agroeco.png","images/SPI-1_classification_2009_GHA_Agroeco.png","images/SPI-1_classification_2010_GHA_Agroeco.png","images/SPI-1_classification_2011_GHA_Agroeco.png","images/SPI-1_classification_2012_GHA_Agroeco.png","images/SPI-1_classification_2013_GHA_Agroeco.png","images/SPI-1_classification_2014_GHA_Agroeco.png","images/SPI-1_classification_2015_GHA_Agroeco.png","images/SPI-1_classification_2016_GHA_Agroeco.png","images/SPI-1_classification_2017_GHA_Agroeco.png","images/SPI-1_classification_2018_GHA_Agroeco.png","images/SPI-1_classification_2019_GHA_Agroeco.png","images/SPI-1_classification_2020_GHA_Agroeco.png","images/SPI-1_classification_2021_GHA_Agroeco.png","images/SPI-1_classification_2022_GHA_Agroeco.png","images/SPI-1_classification_2023_GHA_Agroeco.png"];
+
+var years = ["1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023"];
+
+var currentIndex = 0;
+var timer = null;
+
+function updateMap() {
+  document.getElementById("mapImage").src = images[currentIndex];
+  document.getElementById("yearLabel").innerHTML = "Year: " + years[currentIndex];
+  document.getElementById("yearSlider").value = currentIndex;
+}
+
+function nextYear() {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateMap();
+}
+
+function previousYear() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  updateMap();
+}
+
+function selectYear(index) {
+  currentIndex = parseInt(index);
+  updateMap();
+}
+
+function playAnimation() {
+  pauseAnimation();
+  timer = setInterval(nextYear, 1200);
+}
+
+function pauseAnimation() {
+  if (timer !== null) clearInterval(timer);
+}
+</script>
+
+</body>
+</html>

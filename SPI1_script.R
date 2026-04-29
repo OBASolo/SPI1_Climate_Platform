@@ -49,7 +49,7 @@ library(stringr)
 # 1. Define input and output folders
 # ------------------------------------------------------------
 
-img_dir <- "E:/ILIMS_project/FIGURES/DROUGHT/SPI-1"
+img_dir <- "C:/Users/s.obahoundje/OneDrive - CGIAR/Documents/R_PROJECT_SCRIPT/SPI1_Climate_Platform/DATA/SPI-1"
 
 out_dir <- file.path(img_dir, "SPI1_HTML_Platform")
 dir.create(out_dir, showWarnings = FALSE)
