@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SPI-1 Climate Early Warning Platform</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: linear-gradient(90deg, #08306B, #2171B5);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.header p {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+}
+
+.container {
+  width: 92%;
+  margin: 25px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+}
+
+.controls {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  background: #2171B5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  margin: 5px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #08306B;
+}
+
+select, input[type=range] {
+  padding: 8px;
+  margin: 8px;
+  font-size: 15px;
+}
+
+#yearLabel {
+  font-size: 24px;
+  font-weight: bold;
+  color: #08306B;
+}
+
+.map-box {
+  text-align: center;
+}
+
+.map-box img {
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.footer {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>SPI-1 Climate Early Warning Platform</h1>
+  <p>Animated yearly monitoring of drought and wetness conditions across Ghana</p>
+</div>
+
+<div class="container">
+
+  <div class="controls">
+    <div id="yearLabel">Year: 1984</div>
+
+    <br>
+
+    <button onclick="previousYear()">Previous</button>
+    <button onclick="playAnimation()">Play</button>
+    <button onclick="pauseAnimation()">Pause</button>
+    <button onclick="nextYear()">Next</button>
+
+    <br>
+
+    <label><b>Select year:</b></label>
+    <select id="yearSelect" onchange="selectYear(this.value)">
+<option value="0">1984</option>
+<option value="1">1985</option>
+<option value="2">1986</option>
+<option value="3">1987</option>
+<option value="4">1988</option>
+<option value="5">1989</option>
+<option value="6">1990</option>
+<option value="7">1991</option>
+<option value="8">1992</option>
+<option value="9">1993</option>
+<option value="10">1994</option>
+<option value="11">1995</option>
+<option value="12">1996</option>
+<option value="13">1997</option>
+<option value="14">1998</option>
+<option value="15">1999</option>
+<option value="16">2000</option>
+<option value="17">2001</option>
+<option value="18">2002</option>
+<option value="19">2003</option>
+<option value="20">2004</option>
+<option value="21">2005</option>
+<option value="22">2006</option>
+<option value="23">2007</option>
+<option value="24">2008</option>
+<option value="25">2009</option>
+<option value="26">2010</option>
+<option value="27">2011</option>
+<option value="28">2012</option>
+<option value="29">2013</option>
+<option value="30">2014</option>
+<option value="31">2015</option>
+<option value="32">2016</option>
+<option value="33">2017</option>
+<option value="34">2018</option>
+<option value="35">2019</option>
+<option value="36">2020</option>
+<option value="37">2021</option>
+<option value="38">2022</option>
+<option value="39">2023</option>
+    </select>
+
+    <br>
+
+    <input 
+      type="range" 
+      id="yearSlider" 
+      min="0" 
+      max="39" 
+      value="0" 
+      step="1" 
+      oninput="selectYear(this.value)"
+      style="width:70%;"
+    >
+  </div>
+
+  <div class="map-box">
+    <img id="mapImage" src="images/SPI-1_classification_1984_GHA_Agroeco.png" alt="SPI-1 map">
+  </div>
+
+  <div class="footer">
+    Indicator: SPI-1 | Classes: Extremely Dry to Extremely Wet | Source: ILIMS Project
+  </div>
+
+</div>
+
+<script>
+var images = [
+"images/SPI-1_classification_1984_GHA_Agroeco.png",
+"images/SPI-1_classification_1985_GHA_Agroeco.png",
+"images/SPI-1_classification_1986_GHA_Agroeco.png",
+"images/SPI-1_classification_1987_GHA_Agroeco.png",
+"images/SPI-1_classification_1988_GHA_Agroeco.png",
+"images/SPI-1_classification_1989_GHA_Agroeco.png",
+"images/SPI-1_classification_1990_GHA_Agroeco.png",
+"images/SPI-1_classification_1991_GHA_Agroeco.png",
+"images/SPI-1_classification_1992_GHA_Agroeco.png",
+"images/SPI-1_classification_1993_GHA_Agroeco.png",
+"images/SPI-1_classification_1994_GHA_Agroeco.png",
+"images/SPI-1_classification_1995_GHA_Agroeco.png",
+"images/SPI-1_classification_1996_GHA_Agroeco.png",
+"images/SPI-1_classification_1997_GHA_Agroeco.png",
+"images/SPI-1_classification_1998_GHA_Agroeco.png",
+"images/SPI-1_classification_1999_GHA_Agroeco.png",
+"images/SPI-1_classification_2000_GHA_Agroeco.png",
+"images/SPI-1_classification_2001_GHA_Agroeco.png",
+"images/SPI-1_classification_2002_GHA_Agroeco.png",
+"images/SPI-1_classification_2003_GHA_Agroeco.png",
+"images/SPI-1_classification_2004_GHA_Agroeco.png",
+"images/SPI-1_classification_2005_GHA_Agroeco.png",
+"images/SPI-1_classification_2006_GHA_Agroeco.png",
+"images/SPI-1_classification_2007_GHA_Agroeco.png",
+"images/SPI-1_classification_2008_GHA_Agroeco.png",
+"images/SPI-1_classification_2009_GHA_Agroeco.png",
+"images/SPI-1_classification_2010_GHA_Agroeco.png",
+"images/SPI-1_classification_2011_GHA_Agroeco.png",
+"images/SPI-1_classification_2012_GHA_Agroeco.png",
+"images/SPI-1_classification_2013_GHA_Agroeco.png",
+"images/SPI-1_classification_2014_GHA_Agroeco.png",
+"images/SPI-1_classification_2015_GHA_Agroeco.png",
+"images/SPI-1_classification_2016_GHA_Agroeco.png",
+"images/SPI-1_classification_2017_GHA_Agroeco.png",
+"images/SPI-1_classification_2018_GHA_Agroeco.png",
+"images/SPI-1_classification_2019_GHA_Agroeco.png",
+"images/SPI-1_classification_2020_GHA_Agroeco.png",
+"images/SPI-1_classification_2021_GHA_Agroeco.png",
+"images/SPI-1_classification_2022_GHA_Agroeco.png",
+"images/SPI-1_classification_2023_GHA_Agroeco.png"
+];
+
+var years = [
+"1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023"
+];
+
+var currentIndex = 0;
+var timer = null;
+
+function updateMap() {
+  document.getElementById("mapImage").src = images[currentIndex];
+  document.getElementById("yearLabel").innerHTML = "Year: " + years[currentIndex];
+  document.getElementById("yearSlider").value = currentIndex;
+  document.getElementById("yearSelect").value = currentIndex;
+}
+
+function nextYear() {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateMap();
+}
+
+function previousYear() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  updateMap();
+}
+
+function selectYear(index) {
+  currentIndex = parseInt(index);
+  updateMap();
+}
+
+function playAnimation() {
+  pauseAnimation();
+  timer = setInterval(nextYear, 1200);
+}
+
+function pauseAnimation() {
+  if (timer !== null) {
+    clearInterval(timer);
+    timer = null;
+  }
+}
+</script>
+
+</body>
+</html>
+
